@@ -4,7 +4,7 @@
 ## 📁 문서 바로가기
 
 - [요구사항 분석서](./docs/requirements.md)
-- [ERD 설계](./docs/erd.md)
+- [시스템 개요서](./docs/system-overview.md)
 - [Milestone](./docs/milestone.md)
 - [인프라 구성도](./docs/infra.md) 
 
