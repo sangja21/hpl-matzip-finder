@@ -1,13 +1,16 @@
-## 프로젝트
+# hpl-matzip-finder 🍜
+> Hanghae Plus Lite 백엔드 과제 - 맛집 검색 서비스
 
-## Getting Started
+## 📁 문서 바로가기
 
-### Prerequisites
+- [요구사항 분석서](./docs/requirements.md)
+- [ERD 설계](./docs/erd.md)
+- [Milestone](./docs/milestone.md)
+- [인프라 구성도](./docs/infra.md) 
 
-#### Running Docker Containers
+## 🐳 인프라 실행
 
-`local` profile 로 실행하기 위하여 인프라가 설정되어 있는 Docker 컨테이너를 실행해주셔야 합니다.
+`local` profile로 실행하기 위하여 Docker 컨테이너를 먼저 실행합니다:
 
 ```bash
 docker-compose up -d
-```
