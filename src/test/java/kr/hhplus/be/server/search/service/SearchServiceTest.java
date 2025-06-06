@@ -1,5 +1,6 @@
 package kr.hhplus.be.server.search.service;
 
+import kr.hhplus.be.server.search.redis.SearchRankingRedis;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
