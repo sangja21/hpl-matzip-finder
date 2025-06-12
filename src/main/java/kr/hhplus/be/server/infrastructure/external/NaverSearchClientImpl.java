@@ -1,9 +1,8 @@
 package kr.hhplus.be.server.infrastructure.external;
 
-import kr.hhplus.be.server.api.search.dto.NaverPlaceDTO;
-import kr.hhplus.be.server.api.search.dto.NaverSearchResponse;
-import kr.hhplus.be.server.api.search.dto.SearchResponseDTO;
-import kr.hhplus.be.server.domain.search.NaverSearchClient;
+import kr.hhplus.be.server.domain.search.dto.SearchResult;
+import kr.hhplus.be.server.infrastructure.external.dto.NaverPlaceDTO;
+import kr.hhplus.be.server.infrastructure.external.dto.NaverSearchResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NaverSearchClientImpl implements NaverSearchClient {
 
-    private final RestTemplate restTemplate = new RestTemplate();  // 임시 생성
+    private final RestTemplate restTemplate = new RestTemplate(); // TODO: 추후 Bean 주입으로 리팩토링
 
     @Value("${naver.api.client-id}")
     private String clientId;
@@ -29,7 +28,7 @@ public class NaverSearchClientImpl implements NaverSearchClient {
     private String apiUrl;
 
     @Override
-    public List<SearchResponseDTO> searchRestaurants(String keyword, String location) {
+    public List<SearchResult> searchRestaurants(String keyword, String location) {
         String query = keyword + " " + location;
 
         HttpHeaders headers = new HttpHeaders();
@@ -50,11 +49,13 @@ public class NaverSearchClientImpl implements NaverSearchClient {
             List<NaverPlaceDTO> items = response.getBody().getItems();
 
             return items.stream()
-                    .map(item -> SearchResponseDTO.builder()
+                    .map(item -> SearchResult.builder()
                             .title(item.getTitle())
                             .category(item.getCategory())
                             .address(item.getAddress())
                             .roadAddress(item.getRoadAddress())
+                            .latitude(parseOrZero(item.getMapy()))
+                            .longitude(parseOrZero(item.getMapx()))
                             .build())
                     .toList();
 
@@ -64,4 +65,11 @@ public class NaverSearchClientImpl implements NaverSearchClient {
         }
     }
 
+    private double parseOrZero(String value) {
+        try {
+            return Double.parseDouble(value);
+        } catch (Exception e) {
+            return 0.0;
+        }
+    }
 }

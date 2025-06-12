@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.api.search.dto;
+package kr.hhplus.be.server.infrastructure.external.dto;
 
 import lombok.Getter;
 

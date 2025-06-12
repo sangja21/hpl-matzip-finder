@@ -2,7 +2,7 @@ package kr.hhplus.be.server.application;
 
 import kr.hhplus.be.server.api.common.dto.PageResponseDTO;
 import kr.hhplus.be.server.api.search.dto.SearchResponseDTO;
-import kr.hhplus.be.server.domain.search.NaverSearchClient;
+import kr.hhplus.be.server.infrastructure.external.NaverSearchClient;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
