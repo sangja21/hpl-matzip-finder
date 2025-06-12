@@ -108,11 +108,11 @@ sequenceDiagram
 3. 만약 실패(Exception 발생) 시, `SearchContext`는 `KakaoSearchStrategy`로 전략을 변경하고 재시도합니다.
 4. 최종 결과를 `SearchService`가 받아 클라이언트에게 반환합니다.
 ---
-## 4. 외부 API 장애시 대응 방법 클래스 다이어그램 (확장)
+## 5. 외부 API 장애시 대응 방법 클래스 다이어그램 (확장)
 
 ### 전략 패턴 + 어댑터 패턴 기반 검색 서비스 구조
 
-![img.png](img.png)
+![img.png](img/strategy_pattern01.png)
 ---
 
 ### 🧩 핵심 설계 요약
@@ -149,7 +149,56 @@ sequenceDiagram
 
 ---
 
+## 6. SearchService 구성 및 역할
+
+![img.png](img/strategy_pattern_serach_service.png)
+
+### 검색 요청 처리의 진입점: SearchService
+
+`SearchService`는 클라이언트 요청을 받아 실제 검색 결과를 반환하는 서비스 계층입니다.  
+이 계층은 `SearchClientManager` 또는 `SearchContext`를 내부적으로 사용하여 전략에 따른 검색을 실행합니다.
+
+---
+
+### ✅ 구성 목적
+
+- 전략 패턴의 실행 흐름을 외부에 노출하지 않음
+- Fallback 처리, 캐싱, 로깅 등의 부가 로직도 이 계층에서 처리 가능
+- 응답을 통합 포맷(`SearchResult`)으로 정리하여 Controller에 반환
+
+---
+
+### 💡 구성 요소 설명
+
+| 구성 요소 | 설명 |
+|-----------|------|
+| `SearchService` | 검색의 최상위 실행자. 요청을 받아 전략/매니저를 호출하고 응답을 리턴 |
+| `SearchClientManager` 또는 `SearchContext` | 전략을 실행하거나 fallback 전략을 관리 |
+| `SearchClient` | 실제 API 호출 로직을 포함한 전략 인터페이스 |
+| `SearchResult` | 내부 표준 응답 객체로, 클라이언트 응답 포맷과 1:1 대응 |
+
+---
+
+### 🛠️ 예시 코드 (with SearchClientManager 기반)
+
+```java
+@Service
+public class SearchService {
+
+    private final SearchClientManager clientManager;
+
+    public SearchService(SearchClientManager clientManager) {
+        this.clientManager = clientManager;
+    }
+
+    public List<SearchResult> search(String keyword) {
+        return clientManager.searchAll(keyword);
+    }
+}
+```
+
+
 📝 **작성일:** 2025-05-30  
-📝 **수정일:** 2025-06-12
+📝 **수정일:** 2025-06-13
 
 🧑‍💻 **작성자:** 이준열
