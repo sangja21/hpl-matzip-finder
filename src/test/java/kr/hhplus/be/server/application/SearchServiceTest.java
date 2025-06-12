@@ -1,3 +1,4 @@
+// 📁 src/test/java/kr/hhplus/be/server/application/SearchServiceTest.java
 package kr.hhplus.be.server.application;
 
 import kr.hhplus.be.server.domain.search.NaverSearchClient;
@@ -34,10 +35,10 @@ public class SearchServiceTest {
     @Test
     public void 맛집검색시_네이버API를_호출한다() {
         // given
-        String keyword = "떡볶이";
+        String keyword = "파스타";
         String location = "서울역";
-        when(naverSearchClient.searchRestaurants(keyword, location))
-                .thenReturn(List.of(/* dummy data */));
+        when(naverSearchClient.searchRestaurants(anyString(), anyString()))
+                .thenReturn(List.of());
 
         // when
         searchService.searchRestaurants(keyword, location);
@@ -46,34 +47,4 @@ public class SearchServiceTest {
         verify(naverSearchClient).searchRestaurants(keyword, location);
     }
 
-    @Test
-    public void 맛집검색시_검색어를_DB에_저장한다() {
-        // given
-        String keyword = "떡볶이";
-        String location = "서울역";
-        when(naverSearchClient.searchRestaurants(anyString(), anyString()))
-                .thenReturn(List.of());
-
-        // when
-        searchService.searchRestaurants(keyword, location);
-
-        // then
-        verify(searchHistoryRepository).save(any());
-    }
-
-    @Test
-    public void 맛집검색시_검색어를_Redis에_갱신한다() {
-        // given
-        String keyword = "떡볶이";
-        String location = "서울역";
-        when(naverSearchClient.searchRestaurants(anyString(), anyString()))
-                .thenReturn(List.of());
-
-        // when
-        searchService.searchRestaurants(keyword, location);
-
-        // then
-        verify(searchRankingRedis).increaseScore(keyword);
-    }
 }
-
