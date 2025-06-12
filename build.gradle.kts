@@ -39,6 +39,10 @@ dependencies {
 	runtimeOnly("com.mysql:mysql-connector-j")
 	testImplementation("com.h2database:h2")
 
+	// redis
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
+
 	// Lombok
 	compileOnly("org.projectlombok:lombok:1.18.30")
 	annotationProcessor("org.projectlombok:lombok:1.18.30")
