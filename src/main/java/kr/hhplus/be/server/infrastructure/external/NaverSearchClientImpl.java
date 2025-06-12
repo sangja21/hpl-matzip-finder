@@ -13,19 +13,24 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 public class NaverSearchClientImpl implements NaverSearchClient {
 
-    private final RestTemplate restTemplate = new RestTemplate(); // TODO: 추후 Bean 주입으로 리팩토링
+    private final RestTemplate restTemplate;
+    private final String clientId;
+    private final String clientSecret;
+    private final String apiUrl;
 
-    @Value("${naver.api.client-id}")
-    private String clientId;
-
-    @Value("${naver.api.client-secret}")
-    private String clientSecret;
-
-    @Value("${naver.api.local-search-url}")
-    private String apiUrl;
+    public NaverSearchClientImpl(
+            RestTemplate restTemplate,
+            @Value("${naver.api.client-id}") String clientId,
+            @Value("${naver.api.client-secret}") String clientSecret,
+            @Value("${naver.api.local-search-url}") String apiUrl
+    ) {
+        this.restTemplate = restTemplate;
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+        this.apiUrl = apiUrl;
+    }
 
     @Override
     public List<SearchResult> searchRestaurants(String keyword, String location) {

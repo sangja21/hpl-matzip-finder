@@ -51,6 +51,8 @@ dependencies {
 	testImplementation("org.testcontainers:junit-jupiter")
 	testImplementation("org.testcontainers:mysql")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	testImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
+
 }
 
 tasks.withType<Test> {
