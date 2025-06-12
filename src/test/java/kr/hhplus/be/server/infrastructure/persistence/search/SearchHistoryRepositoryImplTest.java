@@ -2,7 +2,7 @@ package kr.hhplus.be.server.infrastructure.persistence.search;
 
 import kr.hhplus.be.server.domain.search.SearchHistory;
 import kr.hhplus.be.server.domain.search.SearchHistoryRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
