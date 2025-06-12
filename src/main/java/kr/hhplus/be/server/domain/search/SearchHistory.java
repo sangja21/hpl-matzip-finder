@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.search.entity;
+package kr.hhplus.be.server.domain.search;
 
 import jakarta.persistence.*;
 import lombok.*;

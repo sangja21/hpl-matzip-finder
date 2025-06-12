@@ -1,6 +1,6 @@
-package kr.hhplus.be.server.search.controller;
+package kr.hhplus.be.server.api.search;
 
-import kr.hhplus.be.server.search.service.SearchService;
+import kr.hhplus.be.server.application.SearchService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

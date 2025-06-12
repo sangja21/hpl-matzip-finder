@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.common.dto;
+package kr.hhplus.be.server.api.common.dto;
 
 import lombok.*;
 

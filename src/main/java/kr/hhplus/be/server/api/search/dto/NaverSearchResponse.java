@@ -1,4 +1,4 @@
-package kr.hhplus.be.server.search.dto;
+package kr.hhplus.be.server.api.search.dto;
 
 import lombok.Getter;
 import java.util.List;

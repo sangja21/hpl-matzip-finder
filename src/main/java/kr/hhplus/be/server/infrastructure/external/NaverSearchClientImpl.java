@@ -1,16 +1,15 @@
-package kr.hhplus.be.server.search.service;
+package kr.hhplus.be.server.infrastructure.external;
 
-import kr.hhplus.be.server.search.dto.NaverPlaceDTO;
-import kr.hhplus.be.server.search.dto.NaverSearchResponse;
-import kr.hhplus.be.server.search.dto.SearchResponseDTO;
+import kr.hhplus.be.server.api.search.dto.NaverPlaceDTO;
+import kr.hhplus.be.server.api.search.dto.NaverSearchResponse;
+import kr.hhplus.be.server.api.search.dto.SearchResponseDTO;
+import kr.hhplus.be.server.domain.search.NaverSearchClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.*;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 

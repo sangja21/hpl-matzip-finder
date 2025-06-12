@@ -1,6 +1,6 @@
-package kr.hhplus.be.server.search.service;
+package kr.hhplus.be.server.domain.search;
 
-import kr.hhplus.be.server.search.dto.SearchResponseDTO;
+import kr.hhplus.be.server.api.search.dto.SearchResponseDTO;
 
 import java.util.List;
 

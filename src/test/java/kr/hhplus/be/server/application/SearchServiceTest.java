@@ -1,6 +1,8 @@
-package kr.hhplus.be.server.search.service;
+package kr.hhplus.be.server.application;
 
-import kr.hhplus.be.server.search.redis.SearchRankingRedis;
+import kr.hhplus.be.server.domain.search.NaverSearchClient;
+import kr.hhplus.be.server.domain.search.SearchHistoryRepository;
+import kr.hhplus.be.server.infrastructure.cache.SearchRankingRedis;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
