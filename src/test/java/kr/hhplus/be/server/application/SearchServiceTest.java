@@ -1,6 +1,7 @@
 // 📁 src/test/java/kr/hhplus/be/server/application/SearchServiceTest.java
 package kr.hhplus.be.server.application;
 
+import kr.hhplus.be.server.application.search.service.SearchService;
 import kr.hhplus.be.server.infrastructure.external.NaverSearchClient;
 import kr.hhplus.be.server.domain.search.SearchHistoryRepository;
 import kr.hhplus.be.server.infrastructure.cache.SearchRankingRedis;
