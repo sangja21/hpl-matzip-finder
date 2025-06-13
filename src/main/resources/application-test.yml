@@ -1,0 +1,29 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+      hibernate.format_sql: true
+      hibernate.jdbc.time_zone: UTC
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/hhplus_test
+    username: application
+    password: application
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  redis:
+    host: localhost
+    port: 6379
+
+kakao:
+  rest-api-key: dummy-test-api-key
+
+naver:
+  api:
+    client-id: dummy-client-id
+    client-secret: dummy-client-secret
+    local-search-url: https://dummy-url-for-test.com
+
+

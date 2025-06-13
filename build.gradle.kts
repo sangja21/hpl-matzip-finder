@@ -37,6 +37,11 @@ dependencies {
 
     // DB
 	runtimeOnly("com.mysql:mysql-connector-j")
+	testImplementation("com.h2database:h2")
+
+	// redis
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
 
 	// Lombok
 	compileOnly("org.projectlombok:lombok:1.18.30")
@@ -50,6 +55,8 @@ dependencies {
 	testImplementation("org.testcontainers:junit-jupiter")
 	testImplementation("org.testcontainers:mysql")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	testImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
+
 }
 
 tasks.withType<Test> {
