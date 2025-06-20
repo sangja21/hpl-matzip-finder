@@ -108,6 +108,97 @@ sequenceDiagram
 3. 만약 실패(Exception 발생) 시, `SearchContext`는 `KakaoSearchStrategy`로 전략을 변경하고 재시도합니다.
 4. 최종 결과를 `SearchService`가 받아 클라이언트에게 반환합니다.
 ---
+## 5. 외부 API 장애시 대응 방법 클래스 다이어그램 (확장)
 
-작성일: 2025-05-30
-작성자: 이준열
+### 전략 패턴 + 어댑터 패턴 기반 검색 서비스 구조
+
+![img.png](img/strategy_pattern01.png)
+---
+
+### 🧩 핵심 설계 요약
+
+본 시스템은 **전략 패턴(Strategy Pattern)** 과 **어댑터 패턴(Adapter Pattern)** 을 조합하여 다음과 같은 목적을 달성합니다:
+
+| 구성요소 | 역할 |
+|----------|------|
+| `SearchStrategy` | 검색 로직을 추상화한 전략 인터페이스 |
+| `NaverSearchStrategy`, `KakaoSearchStrategy` | 각각 Naver, Kakao API 호출을 구현한 전략 |
+| `SearchContext` | 현재 전략을 위임 실행하고, 예외 발생 시 다른 전략으로 fallback |
+| `NaverRawResponse`, `KakaoRawResponse` | 외부 API의 응답 포맷에 맞는 구조체 |
+| `SearchResultAdapter` | 서로 다른 RawResponse를 하나의 통일된 `UnifiedPlaceDto`로 변환 |
+| `UnifiedPlaceDto` | 클라이언트에게 응답되는 표준화된 DTO |
+
+---
+
+### 🔁 처리 흐름 정리
+
+1. 클라이언트가 `/search`로 검색 요청을 보냅니다.
+2. `SearchService`는 기본 전략(Naver)을 통해 `SearchContext`에 요청을 위임합니다.
+3. `SearchContext`는 현재 전략 객체의 `search()` 메서드를 호출합니다.
+4. 결과로 `NaverRawResponse` 또는 `KakaoRawResponse`를 받아옵니다.
+5. `SearchResultAdapter`가 RawResponse를 `UnifiedPlaceDto`로 변환합니다.
+6. 클라이언트에게 응답을 전달하고, 동시에 Redis와 DB에 검색어를 저장합니다.
+
+---
+
+### ✍️ 확장 고려사항
+
+- 추후 API 제공자가 추가되더라도 `SearchStrategy`만 구현하면 시스템 전체 변경 없이 쉽게 확장할 수 있습니다.
+- `SearchResultAdapter`는 다형성을 고려하여 `Map<Class<?>, Adapter>` 매핑 테이블 구조로 설계할 수 있습니다.
+- 장애 로깅, 응답 시간 모니터링 등을 미들웨어 또는 AOP 레벨에서 확장 가능합니다.
+
+---
+
+## 6. SearchService 구성 및 역할
+
+![img.png](img/strategy_pattern_serach_service.png)
+
+### 검색 요청 처리의 진입점: SearchService
+
+`SearchService`는 클라이언트 요청을 받아 실제 검색 결과를 반환하는 서비스 계층입니다.  
+이 계층은 `SearchClientManager` 또는 `SearchContext`를 내부적으로 사용하여 전략에 따른 검색을 실행합니다.
+
+---
+
+### ✅ 구성 목적
+
+- 전략 패턴의 실행 흐름을 외부에 노출하지 않음
+- Fallback 처리, 캐싱, 로깅 등의 부가 로직도 이 계층에서 처리 가능
+- 응답을 통합 포맷(`SearchResult`)으로 정리하여 Controller에 반환
+
+---
+
+### 💡 구성 요소 설명
+
+| 구성 요소 | 설명 |
+|-----------|------|
+| `SearchService` | 검색의 최상위 실행자. 요청을 받아 전략/매니저를 호출하고 응답을 리턴 |
+| `SearchClientManager` 또는 `SearchContext` | 전략을 실행하거나 fallback 전략을 관리 |
+| `SearchClient` | 실제 API 호출 로직을 포함한 전략 인터페이스 |
+| `SearchResult` | 내부 표준 응답 객체로, 클라이언트 응답 포맷과 1:1 대응 |
+
+---
+
+### 🛠️ 예시 코드 (with SearchClientManager 기반)
+
+```java
+@Service
+public class SearchService {
+
+    private final SearchClientManager clientManager;
+
+    public SearchService(SearchClientManager clientManager) {
+        this.clientManager = clientManager;
+    }
+
+    public List<SearchResult> search(String keyword) {
+        return clientManager.searchAll(keyword);
+    }
+}
+```
+
+
+📝 **작성일:** 2025-05-30  
+📝 **수정일:** 2025-06-13
+
+🧑‍💻 **작성자:** 이준열
