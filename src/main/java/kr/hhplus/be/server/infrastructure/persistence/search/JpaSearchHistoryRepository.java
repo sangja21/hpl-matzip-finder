@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JpaSearchHistoryRepository extends JpaRepository<SearchHistoryEntity, Long> {
+    long countByKeyword(String keyword);
 }
