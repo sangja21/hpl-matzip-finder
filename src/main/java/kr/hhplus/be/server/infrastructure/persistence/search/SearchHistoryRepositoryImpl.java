@@ -17,4 +17,16 @@ public class SearchHistoryRepositoryImpl implements SearchHistoryRepository {
         jpaSearchHistoryRepository.save(entity);
     }
 
+    // ✅ 테스트용 메서드: 모든 데이터 삭제
+    @Override
+    public void deleteAll() {
+        jpaSearchHistoryRepository.deleteAll();
+    }
+
+    // ✅ 테스트용 메서드: 특정 키워드의 검색 기록 수
+    @Override
+    public long countByKeyword(String keyword) {
+        return jpaSearchHistoryRepository.countByKeyword(keyword);
+    }
+
 }
