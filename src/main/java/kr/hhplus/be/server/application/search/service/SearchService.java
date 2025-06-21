@@ -18,9 +18,9 @@ public class SearchService {
     public PageResponseDTO<SearchResult> searchRestaurants(String keyword, String location) {
         List<SearchResult> items = searchClientManager.search(keyword, location);
 
-        if (!items.isEmpty()) {
+//        if (!items.isEmpty()) {
             searchKeywordRecorder.record(keyword, location);
-        }
+//        }
 
         return PageResponseDTO.<SearchResult>builder()
                 .items(items)
