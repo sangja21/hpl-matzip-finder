@@ -79,6 +79,26 @@ docker-compose -f docker-compose.kafka.yaml up -d
 3. Producer를 통해 메시지 발행
 4. Consumer를 통해 메시지 수신 확인
 
----
+#### 🔧 실제 명령어 예시
 
-이 문서는 Kafka를 처음 접하는 동료들에게 시스템 관점에서 Kafka를 이해하고, 로컬 환경에서 실습할 수 있도록 돕기 위한 목적으로 작성되었습니다.
+```bash
+# broker1 컨테이너 진입 후
+kafka-topics --create \
+  --topic test-topic \
+  --bootstrap-server broker1:29092 \
+  --replication-factor 3 \
+  --partitions 3
+
+# Producer 실행
+kafka-console-producer --bootstrap-server broker1:29092 --topic test-topic
+# 입력 대기 상태에서 메시지 입력: hello kafka!
+
+# broker2 컨테이너 진입 후
+kafka-console-consumer \
+  --bootstrap-server broker2:29093 \
+  --topic test-topic \
+  --from-beginning
+# 출력 결과: hello kafka!
+```
+
+![img.png](img/kafka_test.png)
