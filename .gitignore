@@ -40,3 +40,7 @@ data
 
 #application
 application-developer.yml
+
+#env
+.env
+.env.local
